@@ -22,11 +22,6 @@ const addNote = (title, body) => {
     console.log(chalk.red.inverse("Note title taken!"))
   }
 
-  notes.push({
-    title: title,
-    body: body
-  })
-
   saveNotes(notes)
 }
 
@@ -47,6 +42,16 @@ const removeNote = (title) => {
   saveNotes(filteredNotes)
 }
 
+const listNotes = () => {
+  const notes = loadNotes()
+
+  console.log(chalk.white.bold.bgBlue("  Your notes  "))
+  notes.forEach((note, index) => {
+    console.log(chalk.bold(`${index + 1}. ${note.title}`))
+    console.log(`    ${note.body}`)
+  })
+}
+
 const saveNotes = (notes) => {
   const dataJSON = JSON.stringify(notes)
   fs.writeFileSync("notes.json", dataJSON)
@@ -62,8 +67,11 @@ const loadNotes = () => {
   }
 }
 
+
+
 module.exports = {
   getNotes: getNotes,
   addNote: addNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  listNotes: listNotes
 }
